@@ -13,13 +13,13 @@ window.phantasmaJsHw.getLedgerAccountSigner = async (accountIx) => {
   if (accountIx === undefined) {
     throw Error('accountIx is a required parameter.');
   }
-  // await window.TransportWebUSB.create();
-  // const paths = await window.TransportWebUSB.list();
-  // console.log('paths', paths);
-  // if(paths.length == 0) {
-  //   alert('NUmber of devices found:' + paths.length);
-  //   return;
-  // }
+  await window.TransportWebUSB.create();
+  const paths = await window.TransportWebUSB.list();
+  console.log('paths', paths);
+  if (paths.length == 0) {
+    alert('NUmber of devices found:' + paths.length);
+    return;
+  }
   // const path = paths[0];
   // let accountData;
   // const device = await window.TransportWebUSB.create();

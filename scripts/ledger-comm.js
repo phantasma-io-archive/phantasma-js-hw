@@ -192,7 +192,7 @@ const getBip44PathMessage = (messagePrefix) => {
 const getPublicKey = async (transport, options) => {
   /* istanbul ignore if */
   if (transport == undefined) {
-    throw Error('transportNodeHid is a required parameter.');
+    throw Error('transport is a required parameter.');
   }
   /* istanbul ignore if */
   if (options == undefined) {
