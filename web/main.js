@@ -4,7 +4,7 @@ let accountSigner = undefined;
 let accountData = undefined;
 let ledgerInUse = false;
 
-const phantasmaRPC = new window.phantasmaJS.PhantasmaAPI('http://testnet.phantasma.io:7077/rpc', 'https://explorer.phantasma.io/testnet-getpeers.json', 'testnet');
+const phantasmaRPC = new window.phantasmaJS.PhantasmaAPI('http://testnet.phantasma.io:7077/rpc', 'https://peers.phantasma.io/testnet-getpeers.json', 'testnet');
 
 const config = {};
 config.blockchainExplorer = 'https://explorer.phantasma.io/nexus';
