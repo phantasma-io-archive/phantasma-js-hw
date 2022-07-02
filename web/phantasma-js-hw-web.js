@@ -13,7 +13,7 @@ window.phantasmaJsHw.getLedgerAccountSigner = async (accountIx) => {
   if (accountIx === undefined) {
     throw Error('accountIx is a required parameter.');
   }
-  await window.TransportWebUSB.create();
+  // await window.TransportWebUSB.create();
   const paths = await window.TransportWebUSB.list();
   console.log('paths', paths);
   if (paths.length == 0) {
@@ -43,7 +43,7 @@ window.phantasmaJsHw.getLedgerAccountSigner = async (accountIx) => {
   //   publicKey:'',
   //   address:'',
   // }
-  accountData = await window.phantasmaJsHw.getBalanceFromLedger(config, {verifyOnDevice: false});
+  accountData = await window.phantasmaJsHw.getBalanceFromLedger(config, {verifyOnDevice: false,debug:true});
   // } finally {
   //   device.close();
   // }

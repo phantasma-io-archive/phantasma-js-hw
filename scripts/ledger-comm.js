@@ -3,7 +3,7 @@
 // max length in bytes.
 const MAX_SIGNED_TX_LEN = 1024;
 
-const debug = false;
+const debug = true;
 
 const bip44Path =
   '8000002C' +
@@ -422,7 +422,6 @@ const sign = async (transport, transactionHex) => {
         if (responseStr !== undefined) {
           if (!responseStr.endsWith('9000')) {
             const message = getErrorMessage(responseStr);
-            device.close();
             callback({
               success: false,
               message: message,

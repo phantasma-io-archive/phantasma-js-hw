@@ -264,6 +264,11 @@
 
       const callback = {};
       callback.signEncodedTx = async (encodedTx) => {
+        /* istanbul ignore if */
+        if (config.debug) {
+          console.log('sendAmountUsingLedger', 'signCallback', 'encodedTx', encodedTx);
+          console.log('sendAmountUsingLedger', 'signCallback', 'config.transport', config.transport);
+        }
         const response = await ledgerCommUtil.sign(config.transport, encodedTx);
         /* istanbul ignore if */
         if (config.debug) {
@@ -313,13 +318,16 @@
     }
 
     try {
+      /* istanbul ignore if */
+      if (config.debug) {
+        console.log('sendAmountUsingCallback', 'encodedTx', encodedTx);
+      }
+
       const signature = await callback.signEncodedTx(encodedTx);
       // const hash = transactionSignUtil.getHash(encodedTx);
       /* istanbul ignore if */
       if (config.debug) {
-        console.log('sendAmountUsingCallback', 'encodedTx', encodedTx);
         console.log('sendAmountUsingCallback', 'signature', signature);
-        console.log('sendAmountUsingCallback', 'publicKey', publicKey);
       }
 
       const verifyResponse = transactionSignUtil.verify(encodedTx, signature, publicKey);

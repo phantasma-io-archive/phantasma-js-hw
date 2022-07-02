@@ -4,7 +4,7 @@ let accountSigner = undefined;
 let accountData = undefined;
 let ledgerInUse = false;
 
-const phantasmaRPC = new window.phantasmaJS.PhantasmaAPI('http://testnet.phantasma.io:7077/rpc', 'https://peers.phantasma.io/testnet-getpeers.json', 'testnet');
+const phantasmaRPC = new window.phantasmaJS.PhantasmaAPI('https://testnet-rpc.phantasma.io/rpc', 'https://peers.phantasma.io/testnet-getpeers.json', 'testnet');
 
 const config = {};
 config.blockchainExplorer = 'https://explorer.phantasma.io/nexus';
@@ -66,6 +66,7 @@ window.checkLedgerOrError = async () => {
   clearAccountInfo();
   const TransportWebUSB = window.TransportWebUSB;
   const isSupportedFlag = await TransportWebUSB.isSupported();
+  await window.TransportWebUSB.create();
   console.log('connectLedger', 'isSupportedFlag', isSupportedFlag);
   if (isSupportedFlag) {
     accountSigner = await window.phantasmaJsHw.getLedgerAccountSigner(
@@ -92,7 +93,7 @@ window.withdraw = async () => {
     let response;
     if (ledgerInUse) {
       const tokenName = 'KCAL';
-      await window.TransportWebUSB.create();
+      // await window.TransportWebUSB.create();
       withdrawResponseElt.innerText = 'CHECK LEDGER FOR SEND BLOCK APPROVAL\n';
       response = await phantasmaJsHw.sendAmountUsingLedger(config, withdrawAmount, tokenName, withdrawAccount);
     } else {
