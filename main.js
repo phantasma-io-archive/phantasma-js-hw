@@ -12,7 +12,7 @@ const bip32Factory = require('bip32').default;
 
 // const phantasmaRPC = new phantasmaJS.PhantasmaAPI('https://seed.ghostdevs.com:7077/rpc', 'https://explorer.phantasma.io/mainnet-getpeers.json', 'mainnet');
 
-const phantasmaRPC = new phantasmaJS.PhantasmaAPI('http://testnet.phantasma.io:7077/rpc', 'https://explorer.phantasma.io/testnet-getpeers.json', 'testnet');
+const phantasmaRPC = new phantasmaJS.PhantasmaAPI('http://testnet.phantasma.io:7077/rpc', 'https://peers.phantasma.io/testnet-getpeers.json', 'testnet');
 
 const transportNodeHid = require('@ledgerhq/hw-transport-node-hid');
 

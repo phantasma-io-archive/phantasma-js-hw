@@ -19,7 +19,7 @@
     "coverage": "nyc -x 'test/util/**' -x 'test/unit/**' ./node_modules/mocha/bin/mocha.js -t 100000 test/unit",
     "eslint": "eslint --fix '**/*.js'",
     "npm-check-updates": "npm-check-updates --target minor -u",
-    "preflight": "npm update && npm run npm-check-updates && npm i && npm audit fix && npm run eslint && npm run prettier && npm run coverage && npm run browserify && npm outdated",
+    "preflight": "npm update && npm run npm-check-updates && npm i && npm audit fix && npm run eslint && npm run prettier && npm run coverage && npm run browserify && npm outdated && echo 'preflight passed'",
     "prettier": "prettier \"**/**.{ts,json,css,scss,html}\" --write",
     "start": "node main.js"
   },
@@ -40,11 +40,11 @@
     "browserify": "^17.0.0",
     "chai": "^4.3.6",
     "elliptic": "^6.5.4",
-    "eslint": "^8.16.0",
+    "eslint": "^8.19.0",
     "eslint-config-google": "^0.14.0",
     "mocha": "^10.0.0",
-    "npm-check-updates": "^13.0.3",
+    "npm-check-updates": "^15.0.1",
     "nyc": "^15.1.0",
-    "prettier": "^2.6.2"
+    "prettier": "^2.7.1"
   }
 }
