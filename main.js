@@ -33,6 +33,7 @@ config.chainName = 'main';
 config.tokenNames = ['KCAL', 'SOUL'];
 config.gasPrice = 100000;
 config.gasLimit = 900;
+config.verifyResponse = true;
 
 const commands = {};
 commands['linfo'] = async () => {

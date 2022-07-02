@@ -3,7 +3,7 @@
 // max length in bytes.
 const MAX_SIGNED_TX_LEN = 1024;
 
-const debug = true;
+const debug = false;
 
 const bip44Path =
   '8000002C' +
@@ -99,7 +99,7 @@ const getVersion = async (transport) => {
         message: error.message,
       };
     } finally {
-      device.device.close();
+      await device.device.close();
     }
   }
   if (device.error) {
@@ -151,7 +151,7 @@ const getApplicationName = async (transport) => {
         message: error.message,
       };
     } finally {
-      device.device.close();
+      await device.device.close();
     }
   }
   if (device.error) {
@@ -245,7 +245,7 @@ const getPublicKey = async (transport, options) => {
         message: error.message,
       };
     } finally {
-      device.device.close();
+      await device.device.close();
     }
   }
   if (device.error) {
@@ -398,8 +398,16 @@ const sign = async (transport, transactionHex) => {
   const ledgerMessage = transactionHex;
 
   const messages = splitMessageIntoChunks(ledgerMessage);
+  if (debug) {
+    console.log('sign', 'transport', transport);
+  }
 
   const device = await getDevice(transport);
+
+  if (debug) {
+    console.log('sign', 'device', device);
+    console.log('sign', 'messages.length', messages.length);
+  }
   if (device.enabled) {
     try {
       let lastResponse = undefined;
@@ -460,7 +468,7 @@ const sign = async (transport, transactionHex) => {
         message: error.message,
       };
     } finally {
-      device.device.close();
+      await device.device.close();
     }
   }
   if (device.error) {

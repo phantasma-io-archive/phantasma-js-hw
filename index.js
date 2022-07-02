@@ -330,13 +330,15 @@
         console.log('sendAmountUsingCallback', 'signature', signature);
       }
 
-      const verifyResponse = transactionSignUtil.verify(encodedTx, signature, publicKey);
-      if (verifyResponse == false) {
-        throw Error(`invalidSignature encodedTx:'${encodedTx}', publicKey:'${publicKey}' signature:'${signature}'`);
-      }
-      /* istanbul ignore if */
-      if (config.debug) {
-        console.log('verifyResponse', verifyResponse);
+      if (config.verifyResponse) {
+        const verifyResponse = transactionSignUtil.verify(encodedTx, signature, publicKey);
+        if (verifyResponse == false) {
+          throw Error(`invalidSignature encodedTx:'${encodedTx}', publicKey:'${publicKey}' signature:'${signature}'`);
+        }
+        /* istanbul ignore if */
+        if (config.debug) {
+          console.log('verifyResponse', verifyResponse);
+        }
       }
 
       txObject.signatures.unshift({signature, kind: 1});

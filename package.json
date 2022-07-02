@@ -8,11 +8,8 @@
     "url": "git+https://github.com/coranos/phantasma-js-hw"
   },
   "scripts": {
-    "browserify": "npm run browserify-TransportWebUSB && npm run browserify-tiny-secp256k1 && npm run browserify-bip32 && npm run browserify-bip39 && npm run browserify-phantasma-js-hw",
+    "browserify": "npm run browserify-TransportWebUSB && npm run browserify-phantasma-js-hw",
     "browserify-TransportWebUSB": "browserify browserify/TransportWebUSB.js -o dist/TransportWebUSB.js",
-    "browserify-bip32": "browserify browserify/bip32.js -o dist/bip32.js",
-    "browserify-bip39": "browserify browserify/bip39.js -o dist/bip39.js",
-    "browserify-tiny-secp256k1": "browserify browserify/tiny-secp256k1.js -o dist/tiny-secp256k1.js",
     "browserify-phantasma-js-hw": "browserify -d browserify/phantasma-js-hw.js -o dist/phantasma-js-hw.js",
     "itest": "./node_modules/mocha/bin/mocha.js -t 100000 test/integration",
     "test": "./node_modules/mocha/bin/mocha.js -t 100000 test/unit",

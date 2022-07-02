@@ -7,19 +7,20 @@ let ledgerInUse = false;
 const phantasmaRPC = new window.phantasmaJS.PhantasmaAPI('https://testnet-rpc.phantasma.io/rpc', 'https://peers.phantasma.io/testnet-getpeers.json', 'testnet');
 
 const config = {};
-config.blockchainExplorer = 'https://explorer.phantasma.io/nexus';
-config.debug = true;
+config.blockchainExplorer = 'http://testnet.phantasma.io/';
+config.debug = false;
 config.transport = window.TransportWebUSB;
 config.rpc = phantasmaRPC;
 config.bip32Factory = window.bip32Factory;
 config.bip39 = window.bip39;
 config.curve = window.tinySecp256k1;
 config.scriptBuilder = new window.phantasmaJS.ScriptBuilder();
-config.nexusName = 'mainnet';
+config.nexusName = 'testnet';
 config.chainName = 'main';
 config.tokenNames = ['KCAL', 'SOUL'];
 config.gasPrice = 100000;
 config.gasLimit = 900;
+config.verifyResponse = false;
 
 window.phantasmaJsHwConfig = config;
 
@@ -66,9 +67,9 @@ window.checkLedgerOrError = async () => {
   clearAccountInfo();
   const TransportWebUSB = window.TransportWebUSB;
   const isSupportedFlag = await TransportWebUSB.isSupported();
-  await window.TransportWebUSB.create();
   console.log('connectLedger', 'isSupportedFlag', isSupportedFlag);
   if (isSupportedFlag) {
+    await window.TransportWebUSB.create();
     accountSigner = await window.phantasmaJsHw.getLedgerAccountSigner(
         ACCOUNT_INDEX,
     );
@@ -95,7 +96,7 @@ window.withdraw = async () => {
       const tokenName = 'KCAL';
       // await window.TransportWebUSB.create();
       withdrawResponseElt.innerText = 'CHECK LEDGER FOR SEND BLOCK APPROVAL\n';
-      response = await phantasmaJsHw.sendAmountUsingLedger(config, withdrawAmount, tokenName, withdrawAccount);
+      response = await window.phantasmaJsHw.sendAmountUsingLedger(config, withdrawAmount, tokenName, withdrawAccount);
     } else {
       withdrawResponseElt.innerText = 'NOT SUPPORTED\n';
     }
