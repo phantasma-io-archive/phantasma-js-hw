@@ -6,26 +6,26 @@ const bip39 = require('bip39');
 
 const curve = require('tiny-secp256k1');
 
-const {phantasmaJS} = require('phantasma-ts');
+const {phantasmaJS, PhantasmaAPI, ScriptBuilder} = require('phantasma-ts');
 
 const bip32Factory = require('bip32').default;
 
 // const phantasmaRPC = new phantasmaJS.PhantasmaAPI('https://seed.ghostdevs.com:7077/rpc', 'https://explorer.phantasma.io/mainnet-getpeers.json', 'mainnet');
 
-const phantasmaRPC = new phantasmaJS.PhantasmaAPI('http://testnet.phantasma.io:7077/rpc', 'https://peers.phantasma.io/testnet-getpeers.json', 'testnet');
+const phantasmaRPC = new PhantasmaAPI('https://testnet.phantasma.io/rpc', undefined, 'testnet');
 
 const transportNodeHid = require('@ledgerhq/hw-transport-node-hid');
 
 const config = {};
 config.blockchainExplorer = 'https://explorer.phantasma.io/nexus';
-config.debug = false;
+config.debug = true;
 config.transport = transportNodeHid.default;
 config.http = require('http');
 config.rpc = phantasmaRPC;
 config.bip32Factory = bip32Factory;
 config.bip39 = bip39;
 config.curve = curve;
-config.scriptBuilder = new phantasmaJS.ScriptBuilder();
+config.scriptBuilder = new ScriptBuilder();
 config.nexusName = 'testnet';
 config.chainName = 'main';
 // config.nexusName = 'test';
@@ -78,7 +78,19 @@ commands['getladdress'] = async (mnemonic) => {
   }
 };
 
-commands['getlbalance'] = async (mnemonic) => {
+commands['getlpublic'] = async (mnemonic) => {
+  const response = await index.getAddressFromLedeger(config, {verifyOnDevice: true});
+  if (config.debug) {
+    console.log('getAddressFromLedger response', response);
+  }
+  if (response.success) {
+    console.log('address', response);
+  } else {
+    console.log('address error', response);
+  }
+};
+
+commands['getlbanpm start getladdresslance'] = async (mnemonic) => {
   const response = await index.getBalanceFromLedger(config, {verifyOnDevice: false});
   if (config.debug) {
     console.log('getBalanceFromLedger response', response);

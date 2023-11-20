@@ -4,17 +4,17 @@ let accountSigner = undefined;
 let accountData = undefined;
 let ledgerInUse = false;
 
-const phantasmaRPC = new window.phantasmaJS.PhantasmaAPI('https://testnet-rpc.phantasma.io/rpc', 'https://peers.phantasma.io/testnet-getpeers.json', 'testnet');
+const phantasmaRPC = new window.PhantasmaAPI('https://testnet.phantasma.io/rpc', undefined, 'testnet');
 
 const config = {};
-config.blockchainExplorer = 'http://testnet.phantasma.io/';
+config.blockchainExplorer = 'https://testnet.phantasma.io/';
 config.debug = false;
 config.transport = window.TransportWebUSB;
 config.rpc = phantasmaRPC;
 config.bip32Factory = window.bip32Factory;
 config.bip39 = window.bip39;
 config.curve = window.tinySecp256k1;
-config.scriptBuilder = new window.phantasmaJS.ScriptBuilder();
+config.scriptBuilder = new window.ScriptBuilder();
 config.nexusName = 'testnet';
 config.chainName = 'main';
 config.tokenNames = ['KCAL', 'SOUL'];
@@ -89,7 +89,7 @@ window.withdraw = async () => {
   const withdrawAmountElt = document.querySelector('#withdrawAmount');
   const withdrawResponseElt = document.querySelector('#withdrawResponse');
   const withdrawAccount = withdrawAccountElt.value;
-  const withdrawAmount = withdrawAmountElt.value;
+  const withdrawAmount = String(withdrawAmountElt.value * 10 ** 10); // KCAL
   try {
     let response;
     if (ledgerInUse) {

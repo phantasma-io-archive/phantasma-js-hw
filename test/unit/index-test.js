@@ -9,7 +9,7 @@ const curve = require('tiny-secp256k1');
 
 const {phantasmaJS} = require('phantasma-ts');
 
-const phantasmaRPC = new phantasmaJS.PhantasmaAPI('http://testnet.phantasma.io:7077/rpc', 'https://peers.phantasma.io/testnet-getpeers.json', 'testnet');
+const phantasmaRPC = new phantasmaJS.PhantasmaAPI('http://testnet.phantasma.io/rpc', 'https://peers.phantasma.io/testnet-getpeers.json', 'testnet');
 
 // modules
 const expect = chai.expect;
