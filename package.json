@@ -29,7 +29,7 @@
     "bip32": "^3.0.1",
     "bip39": "^3.0.4",
     "bs58": "^5.0.0",
-    "phantasma-ts": "^0.1.5",
+    "phantasma-ts": "^0.1.55",
     "tiny-secp256k1": "^2.2.1"
   },
   "devDependencies": {

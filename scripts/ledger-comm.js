@@ -3,13 +3,13 @@
 // max length in bytes.
 const MAX_SIGNED_TX_LEN = 1024;
 
-const debug = false;
+const debug = true;
 
 const bip44Path =
   '8000002C' +
-  '80000273' + // 627
+  '8000003C' + // 627
   '80000000' +
-  '00000000' +
+  '00000000' + 
   '00000000';
 
 const errorDescriptions = {

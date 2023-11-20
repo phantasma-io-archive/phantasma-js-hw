@@ -69,10 +69,15 @@
       /* istanbul ignore if */
       if (config.debug) {
         console.log('address', address);
+        console.log('rpc', config.rpc);
       }
       // const path = `/address/${address}`;
       // const response = await httpRequestUtil.get(config, path);
+      console.log("rpcAwait", await config.rpc.getAccount(address));
       const rpcResponse = await config.rpc.getAccount(address);
+      if (config.debug) {
+        console.log('rpcResponse', rpcResponse);
+      }
       const response = {};
       response.balances = {};
       if (rpcResponse.balances !== undefined) {
@@ -129,6 +134,29 @@
     return await getBalanceFromPrivateKey(config, privateKey);
   };
 
+  const getAddressFromLedeger = async(config, options) => {
+    /* istanbul ignore if */
+    if (config == undefined) {
+      throw Error('config is a required parameter.');
+    }
+    /* istanbul ignore if */
+    if (options == undefined) {
+      throw Error('options is a required parameter.');
+    }
+    const msg = await ledgerCommUtil.getPublicKey(config.transport, options);
+    /* istanbul ignore if */
+    if (config.debug) {
+      console.log('getBalanceFromLedger', 'msg', msg);
+    }
+    if (msg.success) {
+      const publicKey = msg.publicKey;
+      const address = addressTranscodeUtil.getAddressFromPublicKey(publicKey);
+      return address;
+    } else {
+      return msg;
+    }
+  }
+
   const getBalanceFromPrivateKey = async (config, privateKey) => {
     /* istanbul ignore if */
     if (config == undefined) {
@@ -156,6 +184,9 @@
     // const path = `/address/${address}`;
     // const response = await httpRequestUtil.get(config, path);
     const rpcResponse = await config.rpc.getAccount(address);
+    if (config.debug) {
+      console.log('rpcResponse', rpcResponse);
+    }
     const response = {};
     response.balances = {};
     if (rpcResponse.balances !== undefined) {
@@ -308,6 +339,8 @@
       throw Error(`invalidTokenName tokenName:'${tokenName}', config.tokenNames:${JSON.stringify(config.tokenNames)}`);
     }
 
+    console.log("amount", amount);
+
     const txObject = transactionTranscodeUtil.getSendTxObject(fromAddress, toAddress, amount, tokenName, payload, gasPrice, gasLimit, expirationDate, config.nexusName, config.chainName);
     const encodedTx = transactionTranscodeUtil.encodeSendTxWithoutSignature(txObject);
     const decodedTx = transactionTranscodeUtil.decodeSendTxWithoutSignature(encodedTx);
@@ -317,7 +350,7 @@
       console.log('decodedTx', decodedTx);
     }
 
-    try {
+    try {amount
       /* istanbul ignore if */
       if (config.debug) {
         console.log('sendAmountUsingCallback', 'encodedTx', encodedTx);
@@ -393,13 +426,15 @@
     exports.sendAmountUsingMnemonic = sendAmountUsingMnemonic;
     exports.sendAmountUsingLedger = sendAmountUsingLedger;
     exports.getLedgerDeviceInfo = getLedgerDeviceInfo;
+    exports.getAddressFromLedeger = getAddressFromLedeger;
     exports.getBip44Path = mnemonicUtil.getBip44Path;
     exports.hexToBytes = hexToBytesTranscoder.hexToBytes;
     exports.bytesToHex = hexToBytesTranscoder.bytesToHex;
     exports.hexToBuffer = hexToBytesTranscoder.hexToBuffer;
     exports.bufferToHex = hexToBytesTranscoder.bufferToHex;
     exports.getBip44PathMessage = ledgerCommUtil.getBip44PathMessage;
-    exports.getAddressFromPublicKey = addressTranscodeUtil.getAddressFromPublicKey;
+    exports.getAddressFromPublicKey = addressTranscodeUtil.getAddressFromPublicKey;    
+
     return exports;
   })();
   /* istanbul ignore else */

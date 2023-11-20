@@ -1,6 +1,6 @@
 'use strict';
 
-const {phantasmaJS} = require('phantasma-ts');
+const {phantasmaJS, ScriptBuilder, Address, Transaction} = require('phantasma-ts');
 
 /*
  * based on address transcoding here:
@@ -373,25 +373,25 @@ const getSendTxObject = (from, to, amount, tokenName, payload, gasPrice, gasLimi
     throw Error('chainName is a required parameter.');
   }
   // Creating a new Script Builder Object
-  const sb = new phantasmaJS.ScriptBuilder();
-  sb
-      .callContract('gas', 'AllowGas', [from, sb.nullAddress, gasPrice, gasLimit])
-      .callInterop('Runtime.TransferTokens', [from, to, tokenName, amount])
+  const sb = new ScriptBuilder();
+  sb.AllowGas(from, Address.Null, gasPrice, gasLimit)
+      .CallInterop('Runtime.TransferTokens', [from, to, tokenName, amount])
   // 10 000 000 000 = 1 KCAL
-      .callContract('gas', 'SpendGas', [from])
-      .endScript();
+      .SpendGas(from)
+      .EndScript();
 
   // Gives us a string version of the Script
   const script = sb.str;
-  // console.log('getSendTxObject', 'scriptLength', script.length, script.length.toString(16));
-  // console.log('getSendTxObject', 'scriptLength/2', script.length/2, (script.length/2).toString(16));
-  // console.log('getSendTx', 'script', script);
-  // console.log('getSendTx', 'scriptAscii', hex2ascii(script));
 
-  // console.log('getSendTxObject', 'expirationDate', expirationDate);
+  console.log('getSendTxObject', 'scriptLength', script.length, script.length.toString(16));
+  console.log('getSendTxObject', 'scriptLength/2', script.length/2, (script.length/2).toString(16));
+  console.log('getSendTx', 'script', script);
+  console.log('getSendTx', 'scriptAscii', hex2ascii(script));
+
+  console.log('getSendTxObject', 'expirationDate', expirationDate);
 
   // Creating New Transaction Object
-  const transaction = new phantasmaJS.Transaction(
+  const transaction = new Transaction(
       nexusName, // Nexus Name
       chainName, // Chain
       script, // In string format
