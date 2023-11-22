@@ -4,12 +4,101 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta charset="utf-8" />
-    <title>Phantasma-Js-Hw</title>
+    <title>Phantasma Ledger Wallet</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  
     <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
 
-  <body onLoad="onLoad()">
-    <h1>Phantasma-Js-Hw</h1>
+  <body class="bg-gray-100 md:w-full" onLoad="onLoad()">
+    <div class="container-fluid mx-auto px-4">
+        <h1 class="text-2xl font-bold text-center my-4">Phantasma Wallet</h1>
+        <!-- ... other content ... -->
+      <div class="flex flex-col items-center justify-center">
+        <div id="unsupportedLedger" class="hidden text-red-500">Ledger not supported, check that site is https.</div>
+          <div id="checkLedger" class="hidden">
+          <h2 class="text-xl">Ledger</h2>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="checkLedger();return false;">Check Ledger Account</button>
+          <!-- ... more buttons and inputs ... -->
+        </div>
+      <!-- ... more content ... -->
+
+      <!-- Wallet Information Section -->
+      <div class="my-6 bg-white p-4 shadow rounded w-1/2">
+        <h2 class="text-xl font-semibold mb-3">Wallet Information</h2>
+        <p><strong>Address:</strong> <span id="walletAddress">[Your Wallet Address Here]</span></p>
+        <!-- Additional wallet details can go here -->
+      </div>
+
+      <!-- Token List Section -->
+      <div class="my-6 w-1/2">
+        <h2 class="text-xl font-semibold mb-3">Your Tokens</h2>
+        <div class="overflow-x-auto">
+          <table class="min-w-full bg-white">
+            <thead class="bg-gray-800 text-white">
+              <tr>
+                <th class="w-1/3 px-4 py-2">Token Name</th>
+                <th class="w-1/3 px-4 py-2">Balance</th>
+                <th class="w-1/3 px-4 py-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tokenList" class="text-gray-700">
+              <!-- Token items will be added here dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- NFTs Owned Section -->
+    <div class="my-6 bg-white p-4 shadow rounded">
+      <h2 class="text-xl font-semibold mb-3">Your NFTs</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- NFT items will be dynamically added here -->
+      </div>
+    </div>
+
+      <!-- Transactions List Section -->
+    <div class="my-6 bg-white p-4 shadow rounded">
+      <h2 class="text-xl font-semibold mb-3">Transaction History</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white">
+          <thead class="bg-gray-800 text-white">
+            <tr>
+              <th class="px-4 py-2">Transaction ID</th>
+              <th class="px-4 py-2">Date</th>
+              <th class="px-4 py-2">Amount</th>
+              <th class="px-4 py-2">Status</th>
+            </tr>
+          </thead>
+          <tbody id="transactionList" class="text-gray-700">
+            <!-- Transaction items will be dynamically added here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+      <!-- Send Tokens Section -->
+      <div class="my-6 bg-white p-4 shadow rounded w-1/2">
+        <h2 class="text-xl font-semibold mb-3">Send Tokens</h2>
+        <div>
+          <label class="block mb-2 text-sm font-bold text-gray-700" for="destinationAddress">Destination Address:</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="destinationAddress" type="text" placeholder="Enter Destination Wallet Address">
+        </div>
+        <div class="mt-4">
+          <label class="block mb-2 text-sm font-bold text-gray-700" for="tokenSelect">Select Token:</label>
+          <select class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="tokenSelect">
+            <!-- Token options will be dynamically populated here -->
+          </select>
+        </div>
+        <div class="mt-4">
+          <label class="block mb-2 text-sm font-bold text-gray-700" for="amountToSend">Amount:</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="amountToSend" type="number" min="0" placeholder="Amount to Send">
+        </div>
+        <div class="mt-4">
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">Send Tokens</button>
+        </div>
+      </div>
+    </div>
     <a href="../dist/TransportWebUSB.js" target="_blank">latest TransportWebUSB</a>
     <table class="w100pct">
       <tr>

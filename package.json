@@ -1,6 +1,6 @@
 {
   "name": "phantasma-js-hw",
-  "description": "phantasma javascript hawrdware wallet library",
+  "description": "Phantasma javascript hawrdware wallet library",
   "version": "1.0.0",
   "module": "index.js",
   "repository": {

@@ -9,6 +9,7 @@
   const ledgerCommUtil = require('./scripts/ledger-comm.js');
   const transactionTranscodeUtil = require('./scripts/transaction-transcode.js');
   const transactionSignUtil = require('./scripts/transaction-sign.js');
+  const {Transaction, Signature, Base16, Ed25519Signature, PBinaryReader} = require('phantasma-ts');
 
   const leftPad = (number, length) => {
     let str = '' + number;
@@ -350,7 +351,7 @@
       console.log('decodedTx', decodedTx);
     }
 
-    try {amount
+    try {
       /* istanbul ignore if */
       if (config.debug) {
         console.log('sendAmountUsingCallback', 'encodedTx', encodedTx);
@@ -374,15 +375,25 @@
         }
       }
 
-      txObject.signatures.unshift({signature, kind: 1});
-
+      let signatureBytes = Base16.decodeUint8Array(signature);
+      let binaryReader = new PBinaryReader(signatureBytes);
+      let mySignature = new Ed25519Signature(signatureBytes);
+      let myNewSignaturesArray = [];
+      myNewSignaturesArray.push(mySignature);
+      txObject.signatures = myNewSignaturesArray;
       /* istanbul ignore if */
       if (config.debug) {
         console.log('signedTx', txObject);
       }
 
-      const encodedSignedTx = transactionTranscodeUtil.encodeSendTxWithSignature(txObject);
-      const decodedSignedTx = transactionTranscodeUtil.decodeSendTxWithSignature(encodedSignedTx);
+      const encodedSignedTx = Base16.encodeUint8Array(txObject.ToByteAray(true));
+      console.log("encoded signed tx: ",encodedSignedTx);
+      let transaction = new Transaction(); 
+      transaction = transaction.unserialize(encodedSignedTx);
+      console.log({transaction});
+      const decodedSignedTx = transaction.ToByteAray(true);
+
+      //const decodedSignedTx = transactionTranscodeUtil.decodeSendTxWithSignature(encodedSignedTx);
       if (config.debug) {
         console.log('decodedSignedTx', decodedSignedTx);
       }
