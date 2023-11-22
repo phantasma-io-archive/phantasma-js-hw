@@ -8,7 +8,7 @@ const phantasmaRPC = new window.PhantasmaAPI('https://testnet.phantasma.io/rpc',
 
 const config = {};
 config.blockchainExplorer = 'https://testnet.phantasma.io/';
-config.debug = false;
+config.debug = true;
 config.transport = window.TransportWebUSB;
 config.rpc = phantasmaRPC;
 config.bip32Factory = window.bip32Factory;
@@ -21,6 +21,7 @@ config.tokenNames = ['KCAL', 'SOUL'];
 config.gasPrice = 100000;
 config.gasLimit = 900;
 config.verifyResponse = false;
+let tokenNameSelected = "KCAL";
 
 window.phantasmaJsHwConfig = config;
 
@@ -84,12 +85,27 @@ window.checkLedgerOrError = async () => {
   }
 };
 
+function GetDecimals(symbol ){
+  switch(symbol){
+    case "SOUL":
+      return 8;
+    case "KCAL":
+      return 10;
+    case "BSC":
+    case "ETH":
+    case "BNB":
+      return 18
+    default:
+      return 0;
+  }
+}
+
 window.withdraw = async () => {
   const withdrawAccountElt = document.querySelector('#withdrawAccount');
   const withdrawAmountElt = document.querySelector('#withdrawAmount');
   const withdrawResponseElt = document.querySelector('#withdrawResponse');
   const withdrawAccount = withdrawAccountElt.value;
-  const withdrawAmount = String(withdrawAmountElt.value * 10 ** 10); // KCAL
+  const withdrawAmount = String(withdrawAmountElt.value * 10 ** GetDecimals(tokenNameSelected)); // KCAL
   try {
     let response;
     if (ledgerInUse) {

@@ -375,13 +375,13 @@ const getSendTxObject = (from, to, amount, tokenName, payload, gasPrice, gasLimi
   // Creating a new Script Builder Object
   const sb = new ScriptBuilder();
   sb.AllowGas(from, Address.Null, gasPrice, gasLimit)
-      .CallInterop('Runtime.TransferTokens', [from, to, tokenName, amount])
+      .CallInterop('Runtime.TransferTokens', [from, to, tokenName, String(amount)])
   // 10 000 000 000 = 1 KCAL
       .SpendGas(from)
       .EndScript();
 
   // Gives us a string version of the Script
-  const script = sb.str;
+  const script = sb.EndScript();
 
   console.log('getSendTxObject', 'scriptLength', script.length, script.length.toString(16));
   console.log('getSendTxObject', 'scriptLength/2', script.length/2, (script.length/2).toString(16));
