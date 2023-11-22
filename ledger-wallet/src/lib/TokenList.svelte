@@ -9,16 +9,19 @@
 
     let walletAddress = "";
     let userBalances : Balance[] = []; 
-    WalletAddress.subscribe(value => {
+    WalletAddress.subscribe( async value => {
         walletAddress = value;
+        await LoadUserData();
     });
 
     async function LoadUserData(){
+        console.log(walletAddress);
         let accountDetails = await phantasmaAPI.getAccount(walletAddress);
         userBalances = accountDetails.balances;
     }
 
     onMount(async () => {
+        walletAddress = $WalletAddress;
         await LoadUserData();
     });
 </script>

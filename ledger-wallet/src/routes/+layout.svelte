@@ -99,6 +99,9 @@
         phantasmaJSHW = (await import("../../../dist/phantasma-js-hw")).default;
         //window.phantasmaJsHw = phantasmaJSHW;
 
+        (await import("$lib/phantasma-js-hw-web.js")).default;
+
+
         if (network == 'mainnet'){
             ConfigMainnet();
         }else if (network == 'testnet'){
