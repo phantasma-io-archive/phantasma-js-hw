@@ -1,5 +1,3 @@
-
-
 window.phantasmaJsHw.getLedgerAccountSigner = async (accountIx) => {
   const config = window.phantasmaJsHwConfig;
 
@@ -17,7 +15,7 @@ window.phantasmaJsHw.getLedgerAccountSigner = async (accountIx) => {
     alert('NUmber of devices found:' + paths.length);
     return;
   }
-  accountData = await window.phantasmaJsHw.getBalanceFromLedger(config, {verifyOnDevice: false, debug: true});
+  accountData = await window.phantasmaJsHw.getBalanceFromLedger(config, { verifyOnDevice: false, debug: true });
   const signer = {};
   signer.getPublicKey = () => {
     return accountData.publicKey;
