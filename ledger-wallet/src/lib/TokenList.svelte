@@ -3,8 +3,9 @@
     import type { PhantasmaAPI, Balance} from "phantasma-ts";
 	import { onMount } from "svelte";
     let phantasmaAPI : PhantasmaAPI;
-    PhantasmaRPC.subscribe((value) => {
+    PhantasmaRPC.subscribe(async (value) => {
         phantasmaAPI = value;
+        await LoadUserData();
     });
 
     let walletAddress = "";

@@ -130,7 +130,7 @@
     }
 </script>
 
-<div class="h-screen w-full bg-slate-200">
+<div class="w-full bg-slate-200">
     <div class="container-fluid mx-auto px-4">
         <h1 class="text-2xl font-bold text-center py-4">Phantasma Wallet</h1>
 

@@ -6,8 +6,9 @@
     /// 	import { toasts, ToastContainer, FlatToast }  from "svelte-toasts";
 
     let phantasmaAPI : PhantasmaAPI;
-    PhantasmaRPC.subscribe((value) => {
+    PhantasmaRPC.subscribe(async (value) => {
         phantasmaAPI = value;
+        await LoadUserData();
     });
 
     let destinationAddress = "";
