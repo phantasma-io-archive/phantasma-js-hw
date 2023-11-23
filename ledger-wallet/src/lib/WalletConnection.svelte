@@ -1,5 +1,6 @@
 <script lang="ts">
     import { ACCOUNT_INDEX, IsWalletConnected, LedgerInUse, NetworkSelected, WaleltPublicKey, WalletAddress } from "$lib/store";
+	import { FetchUser } from "$lib/Commands";
     let network : string = 'mainnet';
 
     NetworkSelected.subscribe((value) => {

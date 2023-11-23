@@ -1,16 +1,22 @@
-import { writable  } from "svelte/store";
-import { PhantasmaAPI, ScriptBuilder } from "phantasma-ts";
+import { writable, type Writable  } from "svelte/store";
+import { PhantasmaAPI, ScriptBuilder, type Account, type AccountTransactions, type Paginated } from "phantasma-ts";
 
 export const WalletAddress = writable("");
 export const WaleltPublicKey = writable("");
 export const IsWalletConnected = writable(false);
 export const NetworkSelected = writable("mainnet");
 
+export const GasPrice = writable(100000);
+export const GasLimit = writable(900);
+
 export const ACCOUNT_INDEX = 0;
 
 export let accountSigner = undefined;
 export let accountData = undefined;
 export let LedgerInUse = writable(false);
+
+export const UserData : Writable<Account> = writable();
+export const TransactionList : Writable<Paginated<AccountTransactions>> = writable();
 
 export const PhantasmaRPC = writable(new PhantasmaAPI('https://testnet.phantasma.io/rpc', undefined, 'testnet'));
 

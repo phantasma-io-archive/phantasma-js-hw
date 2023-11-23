@@ -1,7 +1,12 @@
 <script lang="ts">
     import {PhantasmaRPC , WalletAddress} from "$lib/store";
-    import type { PhantasmaAPI } from "phantasma-ts";
+    import type { AccountTransactions, PhantasmaAPI, TransactionData } from "phantasma-ts";
 	import { onMount } from "svelte";
+	import { FetchUserTransactions } from "$lib/Commands";
+    let pageNumber = 1;
+    let pageSize = 50;
+    let transactionList : TransactionData[] = []; 
+
     let phantasmaAPI : PhantasmaAPI;
     PhantasmaRPC.subscribe(async (value) => {
         phantasmaAPI = value;
@@ -9,14 +14,12 @@
     });
 
     let walletAddress = "";
-    let transactionList : string[] = []; 
     WalletAddress.subscribe(value => {
         walletAddress = value;
     });
 
     async function LoadUserData(){
-        let accountDetails = await phantasmaAPI.getAccount(walletAddress);
-        transactionList = accountDetails.txs;
+        transactionList = (await FetchUserTransactions(pageNumber, pageSize)).result.txs;
     }
 
     onMount(async () => {
@@ -31,19 +34,19 @@
     <table class="min-w-full bg-white">
         <thead class="bg-gray-800 text-white">
         <tr>
-            <th class="px-4 py-2">Transaction ID</th>
+            <th class="px-4 py-2">Transaction Hash</th>
             <th class="px-4 py-2">Date</th>
-            <th class="px-4 py-2">Amount</th>
             <th class="px-4 py-2">Status</th>
         </tr>
         </thead>
         <tbody id="transactionList" class="text-gray-700">
             {#each transactionList as tx}
                 <tr>
-                    <td>{tx}</td>
+                    <td>{tx.hash}</td>
+                    <td>{tx.timestamp}</td>
+                    <td>{tx.state}</td>
                 </tr>
             {/each}
-        <!-- Transaction items will be dynamically added here -->
         </tbody>
     </table>
     </div>
