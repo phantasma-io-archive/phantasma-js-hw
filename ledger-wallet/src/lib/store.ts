@@ -5,6 +5,7 @@ export const WalletAddress = writable("");
 export const WaleltPublicKey = writable("");
 export const IsWalletConnected = writable(false);
 export const NetworkSelected = writable("mainnet");
+export const ExplorerURL = writable("https://explorer.phantasma.io/");
 
 export const GasPrice = writable(100000);
 export const GasLimit = writable(900);

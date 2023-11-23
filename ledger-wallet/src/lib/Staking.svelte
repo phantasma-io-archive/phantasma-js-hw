@@ -2,8 +2,8 @@
     import {PhantasmaRPC , WalletAddress, UserData, TransactionList} from "$lib/store";
     import type { PhantasmaAPI, Balance, Account, Paginated, AccountTransactions, TransactionData} from "phantasma-ts";
     import StakingModal from "$lib/StakingModal.svelte";
-    let stakedSOULAmount = "0";
-    let unclaimedKCALAmount = "0";
+    let stakedSOULAmount : Number = 0;
+    let unclaimedKCALAmount : Number = 0;
     let userData : Account;
     let transactionList: TransactionData[];
     let accountTransactions: Paginated<AccountTransactions>;
@@ -19,15 +19,26 @@
     });
 
     async function LoadUserData(){
-        stakedSOULAmount = userData.stakes.amount;
-        unclaimedKCALAmount = userData.stakes.unclaimed;
+        if ( userData == null || userData == undefined )
+            return;
+        if ( userData.stakes == null || userData.stakes == undefined )
+        {
+            stakedSOULAmount = 0;
+            unclaimedKCALAmount = 0;
+            return;
+        }
+
+        stakedSOULAmount = Number(userData.stakes.amount)/10 ** 8;
+        unclaimedKCALAmount = Number(userData.stakes.unclaimed) / 10 ** 10;
     } 
 
     async function LoadStakingHistory(){
+        if ( accountTransactions == null || accountTransactions == undefined )
+            return;
         transactionList = accountTransactions.result.txs;
-        for ( let item in transactionList ){
-            
-        }
+        /*for ( let item in transactionList ){
+
+        }*/
     }
     
     let openStakingModal = false;
@@ -41,13 +52,13 @@
     <h2 class="text-xl font-semibold mb-3">Staking Details</h2>
 
     <div class="mb-4">
-        <span class="text-lg">Currently Staked SOUL: </span>
-        <span id="stakedSoulAmount" class="text-lg font-semibold">{stakedSOULAmount}</span> SOUL
+        <span class="text-lg">Currently Staked: </span>
+        <span id="stakedSoulAmount" class="text-lg font-semibold">{stakedSOULAmount.toFixed(2)}</span> <b>SOUL</b>
     </div>
 
     <div>
-        <span class="text-lg">Unclaimed KCAL: </span>
-        <span id="unclaimedKcalAmount" class="text-lg font-semibold">{unclaimedKCALAmount}</span> KCAL
+        <span class="text-lg">Unclaimed: </span>
+        <span id="unclaimedKcalAmount" class="text-lg font-semibold">{unclaimedKCALAmount.toFixed(2)}</span> <b>KCAL</b>
         <!-- Optionally, add a button to claim KCAL here -->
     </div>
 

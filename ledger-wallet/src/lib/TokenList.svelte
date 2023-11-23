@@ -16,6 +16,11 @@
     });
 
     async function LoadUserData(){
+        userBalances = [];
+        if ( userData == null || userData == undefined )
+            return;
+        if ( userData.balances == null || userData.balances == undefined )
+            return;
         userBalances = userData.balances;
     }
 </script>
@@ -33,8 +38,8 @@
         <tbody id="tokenList" class="text-gray-700">
             {#each userBalances as balance}
                 <tr>
-                    <td class="w-1/3 px-4 py-2">{balance.symbol}</td>
-                    <td class="w-1/3 px-4 py-2">{Number(balance.amount) / 10 ** balance.decimals}</td>
+                    <td class="w-1/3 px-4 py-2 text-center"><b>{balance.symbol}</b></td>
+                    <td class="w-1/3 px-4 py-2 text-center">{Number(balance.amount) / 10 ** balance.decimals}</td>
                 </tr>
             {/each}
         </tbody>

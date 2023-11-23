@@ -1,11 +1,15 @@
 <script lang="ts">
-    import {PhantasmaRPC , WalletAddress} from "$lib/store";
-    import type { AccountTransactions, PhantasmaAPI, TransactionData } from "phantasma-ts";
+    import {ExplorerURL, NetworkSelected, PhantasmaRPC , WalletAddress} from "$lib/store";
+    import type { AccountTransactions, Paginated, PhantasmaAPI, TransactionData } from "phantasma-ts";
 	import { onMount } from "svelte";
 	import { FetchUserTransactions } from "$lib/Commands";
     let pageNumber = 1;
     let pageSize = 50;
     let transactionList : TransactionData[] = []; 
+    let explorerURL = "";
+    ExplorerURL.subscribe(value => {
+        explorerURL = value+"en/transaction?id=";
+    });
 
     let phantasmaAPI : PhantasmaAPI;
     PhantasmaRPC.subscribe(async (value) => {
@@ -19,7 +23,9 @@
     });
 
     async function LoadUserData(){
-        transactionList = (await FetchUserTransactions(pageNumber, pageSize)).result.txs;
+        let accountTransactions : Paginated<AccountTransactions> | undefined = await FetchUserTransactions(pageNumber, pageSize);
+        if ( accountTransactions != null || accountTransactions != undefined )
+            transactionList = accountTransactions.result.txs;
     }
 
     onMount(async () => {
@@ -42,7 +48,7 @@
         <tbody id="transactionList" class="text-gray-700">
             {#each transactionList as tx}
                 <tr>
-                    <td>{tx.hash}</td>
+                    <td><a href="{explorerURL}{tx.hash}" class="text-blue-400 hover:text-blue-600">{tx.hash}</a></td>
                     <td>{tx.timestamp}</td>
                     <td>{tx.state}</td>
                 </tr>

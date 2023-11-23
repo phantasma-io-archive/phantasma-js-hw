@@ -1,28 +1,34 @@
 <script lang="ts">
-    import {PhantasmaRPC, WalletAddress} from "$lib/store";
-	import type { Balance, PhantasmaAPI } from "phantasma-ts";
+    import {PhantasmaRPC, WalletAddress, UserData} from "$lib/store";
+	import type { Account, Balance, PhantasmaAPI } from "phantasma-ts";
 	import { onMount } from "svelte";
 
     /// 	import { toasts, ToastContainer, FlatToast }  from "svelte-toasts";
 
     let phantasmaAPI : PhantasmaAPI;
+    let walletAddress = "";
+    let destinationAddress = "";
+    let amount = 0;
+    let userBalances : Array<Balance> = []; 
+    let userData : Account;
+
     PhantasmaRPC.subscribe(async (value) => {
         phantasmaAPI = value;
         await LoadUserData();
     });
 
-    let destinationAddress = "";
-    let amount = 0;
-
-    let walletAddress = "";
     WalletAddress.subscribe(value => {
         walletAddress = value;
     });
 
-    let userBalances : Balance[] = []; 
     async function LoadUserData(){
-        let accountDetails = await phantasmaAPI.getAccount(walletAddress);
-        userBalances = accountDetails.balances;
+        userBalances = [];
+        if ( walletAddress == null || walletAddress == undefined )
+            return;
+
+        if ( userData == null || userData == undefined )
+            return;
+        userBalances = userData.balances;
     }
 
     onMount(async () => {
@@ -47,9 +53,13 @@
         <label class="block mb-2 text-sm font-bold text-gray-700" for="tokenSelect">Select Token:</label>
         <select class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="tokenSelect">
             <!-- Token options will be dynamically populated here -->
-            {#each userBalances as balance}
-                <option value={balance.symbol}>{balance.symbol}</option>
-            {/each}
+            {#if userBalances.length == 0}
+                <option value="none">No Tokens Available</option>
+            {:else}
+                {#each userBalances as balance}
+                    <option value={balance.symbol}>{balance.symbol}</option>
+                {/each}
+            {/if}
         </select>
     </div>
     <div class="mt-4">

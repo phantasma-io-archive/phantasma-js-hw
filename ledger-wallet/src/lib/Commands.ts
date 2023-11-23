@@ -1,5 +1,5 @@
 import {PhantasmaRPC, WalletAddress, UserData, TransactionList, GasLimit, GasPrice} from "$lib/store";
-import { ScriptBuilder, type Balance, type PhantasmaAPI, Address } from "phantasma-ts";
+import { ScriptBuilder, type Balance, type PhantasmaAPI, Address, type Account } from "phantasma-ts";
 
 let gasLimit = 900;
 let gasPrice = 100000;
@@ -37,6 +37,12 @@ export async function FetchUserTransactions(page: number, pageSize: number){
     return result;
 }
 
+export async function GetUserNFTS(symbol: string, nfts : string[]){
+    if ( walletAddress == undefined || phantasmaAPI == undefined || walletAddress == "" ) return;
+    const result = await phantasmaAPI.getNFTs(symbol, nfts);
+    return result;
+}
+
 export async function StakeSOUL(amount: number){
     if ( walletAddress == undefined || phantasmaAPI == undefined || walletAddress == "" ) return;
     const sb = new ScriptBuilder()
@@ -45,7 +51,7 @@ export async function StakeSOUL(amount: number){
     .SpendGas(walletAddress);
     const script = sb.EndScript();
 
-    return result;
+    return script;
 }
 
 export async function UnStakeSOUL(amount: number){
@@ -56,5 +62,5 @@ export async function UnStakeSOUL(amount: number){
     .SpendGas(walletAddress);
     const script = sb.EndScript();
 
-    return result;
+    return script;
 }
