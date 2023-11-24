@@ -2,18 +2,15 @@
 
 const bs58 = require('bs58');
 
-const transactionSignUtil = require('./transaction-sign.js');
-
 /*
  * based on address transcoding here:
  *
  * https://github.com/phantasma-io/phantasma-ts/blob/7d04aaed839851ae5640f68ab223ca7d92c42016/core/tx/utils.js
  */
-const {phantasmaJS, ScriptBuilder, Address, Transaction, PhantasmaKeys, Base16} = require('phantasma-ts');
+const { phantasmaJS, ScriptBuilder, Address, Transaction, PhantasmaKeys, Base16 } = require('phantasma-ts');
 
 const getAddressFromPrivateKey = (privateKey) => {
   const keys = PhantasmaKeys.fromWIF(privateKey);
-  //const publicKey = transactionSignUtil.getPublicFromPrivate(privateKey);
   const publicKey = keys.Address.Text;
   return publicKey;
 };

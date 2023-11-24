@@ -54,7 +54,6 @@
         MyConfig.bip32Factory = window.bip32Factory;
         MyConfig.bip39 = window.bip39;
         MyConfig.curve = window.tinySecp256k1;
-        MyConfig.scriptBuilder = new ScriptBuilder();
         MyConfig.nexusName = 'mainnet';
         MyConfig.chainName = 'main';
         MyConfig.tokenNames = ['KCAL', 'SOUL'];

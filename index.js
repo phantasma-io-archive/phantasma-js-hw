@@ -1,7 +1,7 @@
 'use strict';
 
 // STARTED TOP nodejs/browser hack
-(function() {
+(function () {
   // FINISHED TOP nodejs/browser hack
   const mnemonicUtil = require('./scripts/mnemonic.js');
   const hexToBytesTranscoder = require('./scripts/hex-to-bytes-transcoder.js');
@@ -9,7 +9,7 @@
   const ledgerCommUtil = require('./scripts/ledger-comm.js');
   const transactionTranscodeUtil = require('./scripts/transaction-transcode.js');
   const transactionSignUtil = require('./scripts/transaction-sign.js');
-  const {Transaction, Signature, Base16, Ed25519Signature, PBinaryReader} = require('phantasma-ts');
+  const { Transaction, Signature, Base16, Ed25519Signature, PBinaryReader } = require('phantasma-ts');
 
   const leftPad = (number, length) => {
     let str = '' + number;
@@ -27,7 +27,7 @@
       throw Error('decimals is a required parameter.');
     }
     // console.log('toWholeNumber', 'balance', balance);
-    const paddedBalance = leftPad(balance, decimals+1);
+    const paddedBalance = leftPad(balance, decimals + 1);
     // console.log('toWholeNumber', 'paddedBalance', paddedBalance);
     const prefixLength = paddedBalance.length - decimals;
     // console.log('toWholeNumber', 'prefixLength', prefixLength);
@@ -72,9 +72,8 @@
         console.log('address', address);
         console.log('rpc', config.rpc);
       }
-      // const path = `/address/${address}`;
-      // const response = await httpRequestUtil.get(config, path);
-      console.log("rpcAwait", await config.rpc.getAccount(address));
+
+      console.log('rpcAwait', await config.rpc.getAccount(address));
       const rpcResponse = await config.rpc.getAccount(address);
       if (config.debug) {
         console.log('rpcResponse', rpcResponse);
@@ -135,7 +134,7 @@
     return await getBalanceFromPrivateKey(config, privateKey);
   };
 
-  const getAddressFromLedeger = async(config, options) => {
+  const getAddressFromLedeger = async (config, options) => {
     /* istanbul ignore if */
     if (config == undefined) {
       throw Error('config is a required parameter.');
@@ -156,7 +155,7 @@
     } else {
       return msg;
     }
-  }
+  };
 
   const getBalanceFromPrivateKey = async (config, privateKey) => {
     /* istanbul ignore if */
@@ -272,7 +271,7 @@
     if (toAddress == undefined) {
       throw Error('toAddress is a required parameter.');
     }
-    const options = {verifyOnDevice: false};
+    const options = { verifyOnDevice: false };
     /* istanbul ignore if */
     if (config.debug) {
       console.log('sendAmountUsingLedger', 'options', options);
@@ -340,7 +339,7 @@
       throw Error(`invalidTokenName tokenName:'${tokenName}', config.tokenNames:${JSON.stringify(config.tokenNames)}`);
     }
 
-    console.log("amount", amount);
+    console.log('amount', amount);
 
     const txObject = transactionTranscodeUtil.getSendTxObject(fromAddress, toAddress, amount, tokenName, payload, gasPrice, gasLimit, expirationDate, config.nexusName, config.chainName);
     const encodedTx = transactionTranscodeUtil.encodeSendTxWithoutSignature(txObject);
@@ -387,10 +386,10 @@
       }
 
       const encodedSignedTx = Base16.encodeUint8Array(txObject.ToByteAray(true));
-      console.log("encoded signed tx: ",encodedSignedTx);
-      let transaction = new Transaction(); 
+      console.log('encoded signed tx: ', encodedSignedTx);
+      let transaction = new Transaction();
       transaction = transaction.unserialize(encodedSignedTx);
-      console.log({transaction});
+      console.log({ transaction });
       const decodedSignedTx = transaction.ToByteAray(true);
 
       //const decodedSignedTx = transactionTranscodeUtil.decodeSendTxWithSignature(encodedSignedTx);
@@ -444,7 +443,7 @@
     exports.hexToBuffer = hexToBytesTranscoder.hexToBuffer;
     exports.bufferToHex = hexToBytesTranscoder.bufferToHex;
     exports.getBip44PathMessage = ledgerCommUtil.getBip44PathMessage;
-    exports.getAddressFromPublicKey = addressTranscodeUtil.getAddressFromPublicKey;    
+    exports.getAddressFromPublicKey = addressTranscodeUtil.getAddressFromPublicKey;
 
     return exports;
   })();

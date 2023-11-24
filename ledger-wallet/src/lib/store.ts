@@ -24,19 +24,16 @@ export const PhantasmaRPC = writable(new PhantasmaAPI('https://testnet.phantasma
 //export const GlobalTransportWebUSB = TransportWebUSB;
 export const MyConfigWritable = writable({});
 export const MyConfig =  {
-    blockchainExplorer: 'https://testnet.phantasma.io/',
     debug: false,
     transport: undefined,
     rpc: PhantasmaRPC,
     bip32Factory: undefined,
     bip39: undefined,
     curve: undefined,
-    scriptBuilder: new ScriptBuilder(),
     nexusName: 'testnet',
     chainName: 'main',
     tokenNames: ['KCAL', 'SOUL'],
     gasPrice: 100000,
     gasLimit: 900,
     verifyResponse: false,
-    tokenNameSelected: "KCAL"
 };

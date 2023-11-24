@@ -6,30 +6,23 @@ const bip39 = require('bip39');
 
 const curve = require('tiny-secp256k1');
 
-const {phantasmaJS, PhantasmaAPI, ScriptBuilder} = require('phantasma-ts');
+const { PhantasmaAPI, ScriptBuilder } = require('phantasma-ts');
 
 const bip32Factory = require('bip32').default;
-
-// const phantasmaRPC = new phantasmaJS.PhantasmaAPI('https://seed.ghostdevs.com:7077/rpc', 'https://explorer.phantasma.io/mainnet-getpeers.json', 'mainnet');
 
 const phantasmaRPC = new PhantasmaAPI('https://testnet.phantasma.io/rpc', undefined, 'testnet');
 
 const transportNodeHid = require('@ledgerhq/hw-transport-node-hid');
 
 const config = {};
-config.blockchainExplorer = 'https://explorer.phantasma.io/nexus';
 config.debug = true;
 config.transport = transportNodeHid.default;
-config.http = require('http');
 config.rpc = phantasmaRPC;
 config.bip32Factory = bip32Factory;
 config.bip39 = bip39;
 config.curve = curve;
-config.scriptBuilder = new ScriptBuilder();
 config.nexusName = 'testnet';
 config.chainName = 'main';
-// config.nexusName = 'test';
-// config.chainName = 'main';
 config.tokenNames = ['KCAL', 'SOUL'];
 config.gasPrice = 100000;
 config.gasLimit = 900;
@@ -67,7 +60,7 @@ commands['getmbalance'] = async (mnemonic) => {
 };
 
 commands['getladdress'] = async (mnemonic) => {
-  const response = await index.getBalanceFromLedger(config, {verifyOnDevice: true});
+  const response = await index.getBalanceFromLedger(config, { verifyOnDevice: true });
   if (config.debug) {
     console.log('getAddressFromLedger response', response);
   }
@@ -79,7 +72,7 @@ commands['getladdress'] = async (mnemonic) => {
 };
 
 commands['getlpublic'] = async (mnemonic) => {
-  const response = await index.getAddressFromLedeger(config, {verifyOnDevice: true});
+  const response = await index.getAddressFromLedeger(config, { verifyOnDevice: true });
   if (config.debug) {
     console.log('getAddressFromLedger response', response);
   }
@@ -91,7 +84,7 @@ commands['getlpublic'] = async (mnemonic) => {
 };
 
 commands['getlbanpm start getladdresslance'] = async (mnemonic) => {
-  const response = await index.getBalanceFromLedger(config, {verifyOnDevice: false});
+  const response = await index.getBalanceFromLedger(config, { verifyOnDevice: false });
   if (config.debug) {
     console.log('getBalanceFromLedger response', response);
   }
@@ -105,7 +98,7 @@ commands['getlbanpm start getladdresslance'] = async (mnemonic) => {
 
 commands['msend'] = async (amount, tokenName, toAddress, mnemonic, debug) => {
   if (debug !== undefined) {
-    config.debug = (debug == 'true');
+    config.debug = debug == 'true';
   }
   const response = await index.sendAmountUsingMnemonic(config, amount, tokenName, toAddress, mnemonic, 0);
   if (config.debug) {

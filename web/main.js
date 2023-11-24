@@ -7,21 +7,19 @@ let ledgerInUse = false;
 const phantasmaRPC = new window.PhantasmaAPI('https://testnet.phantasma.io/rpc', undefined, 'testnet');
 
 const config = {};
-config.blockchainExplorer = 'https://testnet.phantasma.io/';
 config.debug = true;
 config.transport = window.TransportWebUSB;
 config.rpc = phantasmaRPC;
 config.bip32Factory = window.bip32Factory;
 config.bip39 = window.bip39;
 config.curve = window.tinySecp256k1;
-config.scriptBuilder = new window.ScriptBuilder();
 config.nexusName = 'testnet';
 config.chainName = 'main';
 config.tokenNames = ['KCAL', 'SOUL'];
 config.gasPrice = 100000;
 config.gasLimit = 900;
 config.verifyResponse = false;
-let tokenNameSelected = "KCAL";
+let tokenNameSelected = 'KCAL';
 
 window.phantasmaJsHwConfig = config;
 
@@ -71,9 +69,7 @@ window.checkLedgerOrError = async () => {
   console.log('connectLedger', 'isSupportedFlag', isSupportedFlag);
   if (isSupportedFlag) {
     await window.TransportWebUSB.create();
-    accountSigner = await window.phantasmaJsHw.getLedgerAccountSigner(
-        ACCOUNT_INDEX,
-    );
+    accountSigner = await window.phantasmaJsHw.getLedgerAccountSigner(ACCOUNT_INDEX);
     accountData = {
       publicKey: accountSigner.getPublicKey(),
       account: accountSigner.getAccount(),
@@ -85,16 +81,16 @@ window.checkLedgerOrError = async () => {
   }
 };
 
-function GetDecimals(symbol ){
-  switch(symbol){
-    case "SOUL":
+function GetDecimals(symbol) {
+  switch (symbol) {
+    case 'SOUL':
       return 8;
-    case "KCAL":
+    case 'KCAL':
       return 10;
-    case "BSC":
-    case "ETH":
-    case "BNB":
-      return 18
+    case 'BSC':
+    case 'ETH':
+    case 'BNB':
+      return 18;
     default:
       return 0;
   }
@@ -126,9 +122,7 @@ window.withdraw = async () => {
 
 const synchUI = async () => {
   const hide = (id) => {
-    document
-        .getElementById(id)
-        .setAttribute('class', 'border_black display_none');
+    document.getElementById(id).setAttribute('class', 'border_black display_none');
   };
   const show = (id) => {
     document.getElementById(id).setAttribute('class', 'border_black');

@@ -6,6 +6,7 @@
     let unclaimedKCALAmount : Number = 0;
     let userData : Account;
     let transactionList: TransactionData[];
+    let stackingHistoryList: TransactionData[];
     let accountTransactions: Paginated<AccountTransactions>;
     
     TransactionList.subscribe( async value => {
@@ -45,6 +46,10 @@
     function openModal(){
         openStakingModal = true;
     }
+
+    function Claim(){
+        
+    }
 </script>
 
 <!-- Staked SOUL and Unclaimed KCAL Section -->
@@ -63,6 +68,7 @@
     </div>
 
     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4" on:click={openModal}>Stake More</button>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4" on:click={Claim}>Claim</button>
 </div>
 
 <!-- Staking History Section -->

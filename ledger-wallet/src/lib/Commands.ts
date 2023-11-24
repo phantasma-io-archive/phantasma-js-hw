@@ -43,6 +43,17 @@ export async function GetUserNFTS(symbol: string, nfts : string[]){
     return result;
 }
 
+export async function SendTokens(from:string, to: string, symbol: string, amount:string ){
+    if ( walletAddress == undefined || walletAddress == "" ) return;
+    const sb = new ScriptBuilder()
+    .AllowGas(walletAddress, Address.Null, gasPrice, gasLimit)
+    .CallInterop("Runtime.TransferTokens", [walletAddress, to, symbol, amount])
+    .SpendGas(walletAddress);
+    const script = sb.EndScript();
+
+    return script;
+}
+
 export async function StakeSOUL(amount: number){
     if ( walletAddress == undefined || phantasmaAPI == undefined || walletAddress == "" ) return;
     const sb = new ScriptBuilder()
@@ -59,6 +70,17 @@ export async function UnStakeSOUL(amount: number){
     const sb = new ScriptBuilder()
     .AllowGas(walletAddress, Address.Null, gasPrice, gasLimit)
     .CallContract("stake", "Unstake", [walletAddress, amount])
+    .SpendGas(walletAddress);
+    const script = sb.EndScript();
+
+    return script;
+}
+
+export async function Claim(){
+    if ( walletAddress == undefined || walletAddress == "" ) return;
+    const sb = new ScriptBuilder()
+    .AllowGas(walletAddress, Address.Null, gasPrice, gasLimit)
+    .CallContract("stake", "Claim", [walletAddress])
     .SpendGas(walletAddress);
     const script = sb.EndScript();
 

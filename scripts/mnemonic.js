@@ -3,8 +3,8 @@
 const hexToBytesTranscoder = require('./hex-to-bytes-transcoder.js');
 
 // coin used by ledger nano s.
-// 627   | 0x80000273 | SOUL   | [Phantasma](https://phantasma.io/)
-const SOUL_COIN = 627;
+// 60   | 0x80000273 | SOUL   | [Phantasma](https://phantasma.io/)
+const SOUL_COIN = 60;
 
 /**
  * converts a mnemonic into a private key, using the phantasma coin's bip44 path.
