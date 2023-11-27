@@ -7,6 +7,9 @@ import { Buffer } from 'buffer';
 //import inject from '@rollup/plugin-inject';
 
 export default defineConfig({
+	build: {
+		target: 'esnext' // This allows top-level await
+	},
 	plugins: [sveltekit(), wasm()],
 	define: {
 		'global.Buffer': Buffer
@@ -24,7 +27,8 @@ export default defineConfig({
 			process: 'process/browser',
 			zlib: 'browserify-zlib',
 			util: 'util',
-			path: 'path-browserify'
+			path: 'path-browserify',
+			crypto: 'crypto-browserify'
 			//Buffer: 'buffer'
 			//Buffer: 'buffer'
 		}
