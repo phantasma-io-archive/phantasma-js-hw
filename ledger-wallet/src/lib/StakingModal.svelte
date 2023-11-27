@@ -1,14 +1,19 @@
 <script lang="ts">
-    import {StakeSOUL} from "$lib/Commands";
+    import {StakeSOUL, UnStakeSOUL} from "$lib/Commands";
     export let openStakingModal = true;
     export let closeModal = () => {
         openStakingModal = false;
     }
     let stakeAmount = 0;
 
-    let confirmStake = () => {
+    let confirmStake = async () => {
         openStakingModal = false;
-        StakeSOUL(stakeAmount);
+        await StakeSOUL(stakeAmount * 10 ** 8);
+    }
+
+    let confirmUnstake = async () => {
+        openStakingModal = false;
+        await UnStakeSOUL(stakeAmount * 10 ** 8);
     }
 </script>
 <!-- Modal for Staking More SOUL -->
@@ -27,7 +32,7 @@
           </button>
         </div>
         <div class="items-center px-4 py-3">
-          <button id="confirmStake" on:click={confirmStake} class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <button id="confirmUnstake" on:click={confirmUnstake} class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300">
             Unstake
           </button>
         </div>

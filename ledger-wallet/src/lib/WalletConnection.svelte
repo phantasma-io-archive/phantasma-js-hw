@@ -29,7 +29,7 @@
         if (isSupportedFlag) {
             await TransportWebUSB.create();
             let accountSigner = await GetLedgerAccountSigner(myConfig, ACCOUNT_INDEX);
-
+            console.log({accountSigner})
             WalletAddress.set(accountSigner.GetAccount().Text);
             WaleltPublicKey.set(accountSigner.GetPublicKey());
             IsWalletConnected.set(true);

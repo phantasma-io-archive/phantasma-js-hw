@@ -2,6 +2,7 @@
     import {PhantasmaRPC , WalletAddress, UserData, TransactionList} from "$lib/store";
     import type { PhantasmaAPI, Balance, Account, Paginated, AccountTransactions, TransactionData} from "phantasma-ts";
     import StakingModal from "$lib/StakingModal.svelte";
+	import { ClaimKCAL } from "./Commands";
     let stakedSOULAmount : Number = 0;
     let unclaimedKCALAmount : Number = 0;
     let userData : Account;
@@ -47,8 +48,8 @@
         openStakingModal = true;
     }
 
-    function Claim(){
-        
+    async function Claim(){
+        await ClaimKCAL();
     }
 </script>
 
