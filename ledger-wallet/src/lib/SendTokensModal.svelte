@@ -77,8 +77,8 @@
 
 </script>
 <!-- Send Tokens Section -->
-<div id="stakingModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" on:click={closeModal}>
-    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white" on:click|stopPropagation>
+<div aria-hidden="true" id="stakingModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" on:click={closeModal} on:keypress={closeModal}>
+    <div aria-hidden="true" class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white" on:click|stopPropagation on:keypress|stopPropagation>
         <div class="my-6 bg-white p-4 shadow rounded w-full">
             <h2 class="text-xl font-semibold mb-3">Send Tokens</h2>
             <div>

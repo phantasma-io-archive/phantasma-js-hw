@@ -12,8 +12,8 @@
     }
 </script>
 <!-- Modal for Staking More SOUL -->
-<div id="stakingModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" on:click={closeModal}>
-    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white" on:click|stopPropagation>
+<div aria-hidden="true" id="stakingModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" on:click={closeModal}>
+    <div aria-hidden="true" class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white" on:click|stopPropagation>
       <div class="mt-3 text-center">
         <h3 class="text-lg leading-6 font-medium text-gray-900">Stake SOUL</h3>
         <div class="mt-2 px-7 py-3">

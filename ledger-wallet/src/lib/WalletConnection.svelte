@@ -51,8 +51,8 @@
     <!-- Select option mainnet and testnet -->
     <div class="flex flex-col items-center justify-center">
         <div class="flex flex-row items-center justify-center">
-            <label class="text-xl text-center my-4">Select Network</label>
-            <select 
+            <label for="selNet" class="text-xl text-center my-4">Select Network</label>
+            <select id="selNet"
             bind:value={network}
             on:change={onNetworkChanged}
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
