@@ -24,7 +24,7 @@
     let walletAddress = "asdasd";
     let isLedgerSupported = false;
 
-    IsWalletConnected.set(true);
+    IsWalletConnected.set(false);
 </script>
 
 <WalletConnection />
@@ -42,6 +42,4 @@
     <NFTList />
 
     <TransactionsList />
-
-
 {/if}

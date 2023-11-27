@@ -1,6 +1,6 @@
 <script lang="ts">
     import {PhantasmaRPC, WalletAddress, UserData} from "$lib/store";
-	import { type Account, type Balance, PhantasmaAPI, Address } from "phantasma-ts";
+	import { type Account, type Balance, PhantasmaAPI, Address, SendTransactionLedger, type LedgerConfig } from "phantasma-ts";
 	import { onMount } from "svelte";
 
     /// 	import { toasts, ToastContainer, FlatToast }  from "svelte-toasts";
@@ -66,6 +66,8 @@
 
         if ( !isAddressValid && !isInputValid )
             return;
+
+       //response = await SendTransactionLedger(phantasmaAPI, walletAddress, destinationAddress, amount, "KCAL");
         
     }
 

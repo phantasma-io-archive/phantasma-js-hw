@@ -1,7 +1,13 @@
 <script lang="ts">
-    import { ACCOUNT_INDEX, IsWalletConnected, LedgerInUse, NetworkSelected, WaleltPublicKey, WalletAddress } from "$lib/store";
+    import { ACCOUNT_INDEX, IsWalletConnected, LedgerInUse, MyConfigWritable, NetworkSelected, WaleltPublicKey, WalletAddress } from "$lib/store";
 	import { FetchUser } from "$lib/Commands";
+	import { GetLedgerAccountSigner, type LedgerConfig } from "phantasma-ts";
     let network : string = 'mainnet';
+
+    let myConfig : LedgerConfig;
+    MyConfigWritable.subscribe((value) => {
+        myConfig = value;
+    });
 
     NetworkSelected.subscribe((value) => {
         network = value;
@@ -16,18 +22,16 @@
     }
 
     async function checkLedgerOrError() {
-        const TransportWebUSB = window.TransportWebUSB;
+        const TransportWebUSB = myConfig.Transport;
         const isSupportedFlag = await TransportWebUSB.isSupported();
         console.log('connectLedger', 'isSupportedFlag', isSupportedFlag);
 
         if (isSupportedFlag) {
-            await window.TransportWebUSB.create();
-            let accountSigner = await window.phantasmaJsHw.getLedgerAccountSigner(
-                ACCOUNT_INDEX
-            );
+            await TransportWebUSB.create();
+            let accountSigner = await GetLedgerAccountSigner(myConfig, ACCOUNT_INDEX);
 
-            WalletAddress.set(accountSigner.getAccount());
-            WaleltPublicKey.set(accountSigner.getPublicKey());
+            WalletAddress.set(accountSigner.GetAccount().Text);
+            WaleltPublicKey.set(accountSigner.GetPublicKey());
             IsWalletConnected.set(true);
         }else {
             IsWalletConnected.set(false);
