@@ -1,9 +1,9 @@
 <script lang="ts">
     import "../input.css";
-	import { onMount } from "svelte";
     import { Buffer } from "buffer";
     window.Buffer = Buffer;
 
+	import { onMount } from "svelte";
 	import { PhantasmaRPC, MyConfig, MyConfigWritable, NetworkSelected, IsWalletConnected} from "$lib/store";
 	import { ScriptBuilder, PhantasmaAPI} from "phantasma-ts";
     import {BIP32Factory} from "bip32";
@@ -37,7 +37,8 @@
 
     function ConfigMainnet(){
         console.log('ConfigMainnet')
-        PhantasmaRPC.set(new PhantasmaAPI("https://pharpc1.phantasma.io/rpc", undefined, "mainnet"));
+        phantasmaAPI = new PhantasmaAPI("https://pharpc1.phantasma.io/rpc", undefined, "mainnet");
+        PhantasmaRPC.set(phantasmaAPI);
         MyConfig.Debug = true;
         MyConfig.Transport = globalTransportWebUSB;
         MyConfig.RPC = phantasmaAPI;
@@ -55,7 +56,8 @@
 
     function ConfigTestnet(){
         console.log('ConfigTestnet');
-        PhantasmaRPC.set(new PhantasmaAPI("https://testnet.phantasma.io/rpc", undefined, "testnet"));
+        phantasmaAPI = new PhantasmaAPI("https://testnet.phantasma.io/rpc", undefined, "testnet");
+        PhantasmaRPC.set(phantasmaAPI);
         MyConfig.Debug = true;
         MyConfig.Transport = globalTransportWebUSB;
         MyConfig.RPC = phantasmaAPI;

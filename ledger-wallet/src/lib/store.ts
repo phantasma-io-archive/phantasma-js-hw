@@ -5,7 +5,8 @@ import {
 	type Account,
 	type AccountTransactions,
 	type Paginated,
-	type LedgerConfig
+	type LedgerConfig,
+	Base16
 } from 'phantasma-ts';
 
 export const WalletAddress = writable('');
@@ -50,5 +51,5 @@ export const MyConfig: LedgerConfig = {
 	GasPrice: 100000,
 	GasLimit: 900,
 	VerifyResponse: false,
-	Payload: 'Ledger Wallet'
+	Payload: Base16.encode('Ledger')
 };

@@ -27,8 +27,8 @@ export default defineConfig({
 			process: 'process/browser',
 			zlib: 'browserify-zlib',
 			util: 'util',
-			path: 'path-browserify'
-			//crypto: 'crypto-browserify'
+			path: 'path-browserify',
+			//crypto: 'crypto'
 			//Buffer: 'buffer'
 			//Buffer: 'buffer'
 		}
