@@ -1,7 +1,8 @@
 <script lang="ts">
     import { ACCOUNT_INDEX, IsWalletConnected, LedgerInUse, MyConfigWritable, NetworkSelected, WaleltPublicKey, WalletAddress } from "$lib/store";
 	import { FetchUser } from "$lib/Commands";
-	import { GetLedgerAccountSigner, type LedgerConfig } from "phantasma-ts";
+	import { Address, GetLedgerAccountSigner, type LedgerConfig } from "phantasma-ts";
+	import { NotificationSuccess, NotificationWarning } from "$lib/NotificationsBuilder";
     let network : string = 'mainnet';
 
     let myConfig : LedgerConfig;
@@ -27,9 +28,19 @@
         console.log('connectLedger', 'isSupportedFlag', isSupportedFlag);
 
         if (isSupportedFlag) {
-            await TransportWebUSB.create();
+            let result = await TransportWebUSB.create();
+            if ( !result ){
+                return;
+            }
+
             let accountSigner = await GetLedgerAccountSigner(myConfig, ACCOUNT_INDEX);
-            console.log({accountSigner})
+            if ( accountSigner.GetAccount() == Address.Null){
+                NotificationWarning("Ledger not connected", "Please open the Phantasma App.");
+                IsWalletConnected.set(false);
+                return;
+            }
+            
+            NotificationSuccess("Ledger connected", "Ledger connected successfully.");
             WalletAddress.set(accountSigner.GetAccount().Text);
             WaleltPublicKey.set(accountSigner.GetPublicKey());
             IsWalletConnected.set(true);

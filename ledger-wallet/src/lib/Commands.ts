@@ -14,7 +14,9 @@ import {
 	Address,
 	type Account,
 	type LedgerConfig,
-	SendTransactionLedger
+	SendTransactionLedger,
+	type LedgerBalanceFromLedgerResponse,
+	type LedgerSendTransactionResponse
 } from 'phantasma-ts';
 
 let gasLimit = 900;
@@ -64,50 +66,68 @@ export async function GetUserNFTS(symbol: string, nfts: string[]) {
 	return result;
 }
 
-export async function SendTokens(to: string, symbol: string, amount: string) {
-	if (walletAddress == undefined || walletAddress == '') return;
+export async function SendTokens(
+	to: string,
+	symbol: string,
+	amount: string
+): Promise<LedgerSendTransactionResponse> {
+	if (walletAddress == undefined || walletAddress == '')
+		return { success: false, message: 'No wallet address' };
 	const sb = new ScriptBuilder()
 		.AllowGas(walletAddress, Address.Null, gasPrice, gasLimit)
 		.CallInterop('Runtime.TransferTokens', [walletAddress, to, symbol, amount])
 		.SpendGas(walletAddress);
 	const script = sb.EndScript();
 
-	await SendTransactionLedger(myConfig, script);
-	return script;
+	const result = await SendTransactionLedger(myConfig, script);
+	return result;
 }
 
-export async function StakeSOUL(amount: number) {
-	if (walletAddress == undefined || phantasmaAPI == undefined || walletAddress == '') return;
+export async function StakeSOUL(amount: number): Promise<LedgerSendTransactionResponse> {
+	if (walletAddress == undefined || phantasmaAPI == undefined || walletAddress == '')
+		return { success: false, message: 'No wallet address' };
 	const sb = new ScriptBuilder()
 		.AllowGas(walletAddress, Address.Null, gasPrice, gasLimit)
 		.CallContract('stake', 'Stake', [walletAddress, String(amount)])
 		.SpendGas(walletAddress);
 	const script = sb.EndScript();
 
-	await SendTransactionLedger(myConfig, script);
-	return script;
+	const result = await SendTransactionLedger(myConfig, script);
+	return result;
 }
 
-export async function UnStakeSOUL(amount: number) {
-	if (walletAddress == undefined || walletAddress == '') return;
+export async function UnStakeSOUL(amount: number): Promise<LedgerSendTransactionResponse> {
+	if (walletAddress == undefined || phantasmaAPI == undefined || walletAddress == '')
+		return { success: false, message: 'No wallet address' };
 	const sb = new ScriptBuilder()
 		.AllowGas(walletAddress, Address.Null, gasPrice, gasLimit)
 		.CallContract('stake', 'Unstake', [walletAddress, String(amount)])
 		.SpendGas(walletAddress);
 	const script = sb.EndScript();
 
-	await SendTransactionLedger(myConfig, script);
-	return script;
+	const result = await SendTransactionLedger(myConfig, script);
+	return result;
 }
 
-export async function ClaimKCAL() {
-	if (walletAddress == undefined || walletAddress == '') return;
+export async function ClaimKCAL(): Promise<LedgerSendTransactionResponse> {
+	if (walletAddress == undefined || phantasmaAPI == undefined || walletAddress == '')
+		return { success: false, message: 'No wallet address' };
 	const sb = new ScriptBuilder()
 		.AllowGas(walletAddress, Address.Null, gasPrice, gasLimit)
-		.CallContract('stake', 'Claim', [walletAddress])
+		.CallContract('stake', 'Claim', [walletAddress, walletAddress])
 		.SpendGas(walletAddress);
 	const script = sb.EndScript();
 
-	await SendTransactionLedger(myConfig, script);
-	return script;
+	const result = await SendTransactionLedger(myConfig, script);
+	return result;
+}
+
+export async function Timeout(ms: number) {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export async function GetTransactionResult(hash: string) {
+	if (phantasmaAPI == undefined) return;
+	const result = await phantasmaAPI.getTransaction(hash);
+	return result;
 }

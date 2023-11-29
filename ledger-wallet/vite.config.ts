@@ -28,7 +28,7 @@ export default defineConfig({
 			zlib: 'browserify-zlib',
 			util: 'util',
 			path: 'path-browserify',
-			//crypto: 'crypto'
+			crypto: 'crypto'
 			//Buffer: 'buffer'
 			//Buffer: 'buffer'
 		}

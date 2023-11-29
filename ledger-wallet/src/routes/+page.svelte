@@ -1,14 +1,15 @@
 <script lang="ts">
-    import TokenList from "$lib/TokenList.svelte";
-    import NFTList from "$lib/NFTList.svelte";
-	import TransactionsList from "$lib/TransactionsList.svelte";
-	import SendTokens from "$lib/SendTokens.svelte";
-	import WalletInformation from "$lib/WalletInformation.svelte";
+    import TokenList from "$lib/Tokens/TokenList.svelte";
+    import NFTList from "$lib/NFTs/NFTList.svelte";
+	import TransactionsList from "$lib/Transactions/TransactionsList.svelte";
+	import SendTokens from "$lib/Tokens/SendTokens.svelte";
+	import WalletInformation from "$lib/WalletConnection/WalletInformation.svelte";
     import {WalletAddress, IsWalletConnected, PhantasmaRPC, NetworkSelected, ExplorerURL} from "$lib/store";
-	import WalletConnection from "$lib/WalletConnection.svelte";
+	import WalletConnection from "$lib/WalletConnection/WalletConnection.svelte";
 	import { onMount } from "svelte";
 	import type { Account, PhantasmaAPI } from "phantasma-ts";
-	import Staking from "$lib/Staking.svelte";
+	import Staking from "$lib/Staking/Staking.svelte";
+	import StakingHistory from "$lib/Staking/StakingHistory.svelte";
 
     NetworkSelected.subscribe(value => {
         if (value == "mainnet")
@@ -35,9 +36,13 @@
 
     <TokenList />
 
-    <SendTokens />
+    <div class=" grid grid-cols-2 space-x-4">
+        <SendTokens />
 
-    <Staking />
+        <Staking />
+    </div>
+
+    <StakingHistory />
 
     <NFTList />
 

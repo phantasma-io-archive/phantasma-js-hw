@@ -2,9 +2,9 @@
     import {PhantasmaRPC, WalletAddress, UserData, MyConfig, MyConfigWritable} from "$lib/store";
 	import { type Account, type Balance, PhantasmaAPI, Address, SendTransactionLedger, type LedgerConfig } from "phantasma-ts";
 	import { onMount } from "svelte";
-	import { SendTokens } from "./Commands";
+	import { FetchUser, GetTransactionResult, SendTokens, Timeout } from "$lib/Commands";
+    import {NotificationError, NotificationSuccess, NotificationWarning} from "$lib/NotificationsBuilder";
 
-    /// 	import { toasts, ToastContainer, FlatToast }  from "svelte-toasts";
     export let isModalOpen = true;
     let phantasmaAPI : PhantasmaAPI;
     let walletAddress = "";
@@ -83,14 +83,47 @@
 
     async function sendTokens(){
 
-        if ( !isAddressValid && !isInputValid )
+        if ( !isAddressValid )
+        {
+            NotificationError("Error Sending Tokens", "Invalid Address");
             return;
+        }
+
         let balanceForSymbol = FindBalance(symbol);
         if ( balanceForSymbol == null || balanceForSymbol == undefined )
+        {
+            NotificationError("Error Sending Tokens", `No balance for ${symbol}`);
             return;
+        }
+
+        if ( Number(balanceForSymbol.amount) < amount )
+        {
+            NotificationError("Error Sending Tokens", `Insufficient balance for ${symbol}, you have ${Number(balanceForSymbol.amount) / 10 ** balanceForSymbol.decimals}`);
+            return;
+        }
+
+        NotificationWarning("Send Tokens", "Please check your wallet to confirm the transaction.");
 
         let amountFixed = amount * 10 ** balanceForSymbol.decimals;
-        await SendTokens(destinationAddress, symbol, String(amountFixed));
+        let result = await SendTokens(destinationAddress, symbol, String(amountFixed));
+
+        // Trigger a refresh of the user data
+        if ( result.success ) {
+            NotificationWarning("Fetching Transaction", `Please wait while we fetch the transaction.`);
+            await Timeout(5 * 1000); // Wait 5 seconds for the transaction to be processed
+            let transaction = await GetTransactionResult(result.message);
+            if (transaction?.state == "Halt")
+            {
+                await FetchUser();
+                NotificationSuccess("Tokens Sent", `Successfully sent ${amount} ${symbol} to ${destinationAddress}`);
+            }else {
+                NotificationError("Error Sending Tokens", `Failed to send ${amount} ${symbol} to ${destinationAddress}`);
+            }
+        }else {
+            NotificationError("Transaction Canceled", `Transaction canceled to send ${amount} ${symbol} to ${destinationAddress}`);
+        }
+
+        closeModal();
     }
 
     function closeModal(){

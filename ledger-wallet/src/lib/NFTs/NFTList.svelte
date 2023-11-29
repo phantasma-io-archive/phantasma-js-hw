@@ -2,7 +2,7 @@
     import {PhantasmaRPC, UserData } from '$lib/store';
 	import type { Account, Balance, NFT } from 'phantasma-ts';
 	import { GetUserNFTS } from '$lib/Commands';
-    import NFTItem from '$lib/NFTItem.svelte';
+    import NFTItem from '$lib/NFTs/NFTItem.svelte';
     
     let nfts : NFT[] = [];
     let userData : Account;

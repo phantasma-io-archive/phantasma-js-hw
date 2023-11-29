@@ -1,12 +1,14 @@
 <script lang="ts">
-    import {ExplorerURL, NetworkSelected, PhantasmaRPC , WalletAddress} from "$lib/store";
-    import type { AccountTransactions, Paginated, PhantasmaAPI, TransactionData } from "phantasma-ts";
+    import {ExplorerURL, NetworkSelected, PhantasmaRPC , WalletAddress, UserData} from "$lib/store";
+    import type { Account, AccountTransactions, Paginated, PhantasmaAPI, TransactionData } from "phantasma-ts";
 	import { onMount } from "svelte";
 	import { FetchUserTransactions } from "$lib/Commands";
     let pageNumber = 1;
     let pageSize = 50;
     let transactionList : TransactionData[] = []; 
     let explorerURL = "";
+    let userData: Account;
+
     ExplorerURL.subscribe(value => {
         explorerURL = value+"en/transaction?id=";
     });
@@ -17,9 +19,15 @@
         await LoadUserData();
     });
 
+
     let walletAddress = "";
     WalletAddress.subscribe(value => {
         walletAddress = value;
+    });
+
+    UserData.subscribe(value => {
+        userData = value;
+        LoadUserData();
     });
 
     async function LoadUserData(){

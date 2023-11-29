@@ -4,12 +4,15 @@
     window.Buffer = Buffer;
 
 	import { onMount } from "svelte";
-	import { PhantasmaRPC, MyConfig, MyConfigWritable, NetworkSelected, IsWalletConnected} from "$lib/store";
-	import { ScriptBuilder, PhantasmaAPI} from "phantasma-ts";
+	import { PhantasmaRPC, MyConfig, MyConfigWritable, NetworkSelected} from "$lib/store";
+	import { PhantasmaAPI} from "phantasma-ts";
     import {BIP32Factory} from "bip32";
     import bip39 from "bip39";
     import * as tinySecp256k1 from "tiny-secp256k1";
     import type TransportWebUSB from "@ledgerhq/hw-transport-webusb";
+    import { SvelteToast } from '@zerodevx/svelte-toast';
+    import { NotificationSuccess, NotificationWarning, NotificationsOptions } from '$lib/NotificationsBuilder';
+
 
     let globalWindow = undefined;
     let isLedgerSupported = false;
@@ -33,6 +36,8 @@
         }else if (network == 'testnet'){
             ConfigTestnet();
         }
+
+        NotificationSuccess("Network changed", "Network changed to "+network);
     });
 
     function ConfigMainnet(){
@@ -94,8 +99,12 @@
     async function OnLoadApplication(){
         const isSupportedFlag = await globalTransportWebUSB!.isSupported();
         if (isSupportedFlag) {
+
+            NotificationSuccess("Ledger supported", "Please connect your ledger device.");
             isLedgerSupported = true;
         } else {
+            NotificationWarning("Ledger not supported", "Please use a different wallet.");
+
             isLedgerSupported = false;
         }
     }
@@ -123,3 +132,12 @@
         </div>
     </div>
 </div>
+
+<SvelteToast options={NotificationsOptions}/>
+
+<style>
+	:root {
+		--toastContainerBottom: 4rem;
+		--toastContainerTop: auto;
+	}
+</style>
